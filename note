@@ -1,0 +1,67 @@
+http://www.gulpjs.com.cn/docs/api/
+https://gulpjs.com/plugins/
+1. 安装gulp
+    npm install gulp -g (全局安装)
+2. 查看安装版本
+    gulp -v
+3. node 自带模块化开发，不用引入sea.js, require.js
+    1.js
+        var two = require("./2.js");
+        two("sunny");
+        console.log(two);
+    2.js
+        function fn(name){
+            console.log(name);
+        }
+        module.exports = fn;
+4.新建一个名字 gulpfile.js 的文件
+5.下载安装gulp插件
+    npm install gulp (当前文件夹下安装gulp，把gulp模块下载下来) 这时会出现 node_modules 文件
+    npm install gulp-uglify //压缩JS文件插件
+    npm install gulp-concat  //将多个js文件合并为一个
+    npm install gulp-minify-css //压缩css文件插件
+    npm install gulp-minify-html  //压缩html 文件插件
+
+    配置gulpfile.js
+    //gulp 作用 压缩css js html
+        var gulp = require('gulp');
+        var uglify = require('gulp-uglify');
+        var concat = require('gulp-concat');
+        var minifyCss = require('gulp-minify-css');
+        var minifyHtml = require('gulp-minify-html');
+
+        //创建任务
+            //1.任务的名称
+            //2.具体执行什么操作
+        gulp.task('js',function(){
+            //找到需要压缩的文件,并进行压缩,最后生成新的js文件
+            gulp.src('./1.js').pipe(uglify()).pipe(gulp.dest('./'));
+            //找到需要压缩的文件，进行压缩，并进行合并，最后生成在当前文件夹下
+            //gulp.src('./*.js').pipe(uglify()).pipe(concat('all.js')).pipe(gulp.dest('./'));
+        });
+        gulp.task('css',function(){
+            gulp.src('./*.css').pipe(minifyCss()).pipe(concat('all.css')).pipe(gulp.dest('./dest'));
+        });
+        gulp.task('html',function(){
+            gulp.src('./index.html').pipe(minifyHtml()).pipe(gulp.dest('./dest'));
+        });
+
+        //执行任务
+        gulp.task('default',['js','css','html']);
+
+        //实时压缩
+            //1.监听什么文件
+            //2.执行什么任务
+        gulp.watch('./*.js',['js']);
+        gulp.watch('./*.css',['css']);
+
+6.gulp 执行任务在命令窗口
+7.命令行卡住时，ctrl+C
+8.gulp常用插件：gulp-uglify(压缩js文件)
+                gulp-jshint(检查js语法错误) npm install jshint gulp-jshint
+                gulp-concat(合并多个js文件)
+                gulp-minify-css(压缩css文件)
+                gulp-minify-html(压缩html文件)
+                gulp-replace(替换)
+
+
